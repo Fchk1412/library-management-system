@@ -33,5 +33,11 @@ public class BookService {
         books.add(book);
         return book;
     }
+    public Book deleteBook(Integer id){
+        Book book = getBook(id);
+        books.remove(book);
+        return book;
+    }
+
     }
 

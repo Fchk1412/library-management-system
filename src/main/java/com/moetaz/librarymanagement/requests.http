@@ -22,3 +22,9 @@ Content-Type: application/json
 
 ### Get all books again
 GET http://localhost:8080/books
+
+###
+DELETE http://localhost:8080/delete/2
+
+###
+GET http://localhost:8080/books

@@ -2,11 +2,8 @@ package com.moetaz.librarymanagement.controller;
 
 import com.moetaz.librarymanagement.model.Book;
 import com.moetaz.librarymanagement.service.BookService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -31,6 +28,9 @@ public class BookController {
     @PostMapping("/books")
     public Book createBook(@RequestBody Book book) {
         return bookService.createBook(book);
-
+    }
+    @DeleteMapping("/books/{id}")
+    public Book deleteBook(@PathVariable Integer id){
+           return bookService.deleteBook(id);
     }
 }
