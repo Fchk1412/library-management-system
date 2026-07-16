@@ -5,6 +5,7 @@ import com.moetaz.librarymanagement.model.Book;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class BookService {
@@ -38,6 +39,13 @@ public class BookService {
         books.remove(book);
         return book;
     }
+    public Book updateBook(Integer id, Book updatedBook) {
+        Book book = getBook(id);
 
+        book.setTitle(updatedBook.getTitle());
+        book.setAuthor(updatedBook.getAuthor());
+
+        return book;
+    }
     }
 
