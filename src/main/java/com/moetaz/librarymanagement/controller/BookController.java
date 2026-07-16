@@ -3,6 +3,7 @@ package com.moetaz.librarymanagement.controller;
 import com.moetaz.librarymanagement.model.Book;
 import com.moetaz.librarymanagement.service.BookService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -19,5 +20,10 @@ public class BookController {
     @GetMapping("/books")
     public List<Book> getBooks() {
         return bookService.getBooks();
+    }
+
+    @GetMapping("/books/{id}")
+    public Book getBook(@PathVariable Integer id){
+        return  bookService.getBook(id);
     }
 }
