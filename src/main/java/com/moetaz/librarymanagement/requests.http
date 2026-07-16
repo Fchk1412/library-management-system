@@ -1,0 +1,24 @@
+### Get all books
+GET http://localhost:8080/books
+
+###
+
+### Get one book
+GET http://localhost:8080/books/2
+
+###
+
+### Create a book
+POST http://localhost:8080/books
+Content-Type: application/json
+
+{
+  "id": 4,
+  "title": "Harry Potter",
+  "author": "J.K. Rowling"
+}
+
+###
+
+### Get all books again
+GET http://localhost:8080/books
