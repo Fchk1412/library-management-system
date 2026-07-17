@@ -1,9 +1,15 @@
 package com.moetaz.librarymanagement.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 import java.util.Objects;
-
-public class Book {
-
+@Entity
+ public class Book {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String title;
     private String author;
@@ -11,8 +17,7 @@ public class Book {
     public Book() {
     }
 
-    public Book(Integer id, String title, String author) {
-        this.id = id;
+    public Book(String title, String author) {
         this.title = title;
         this.author = author;
     }
