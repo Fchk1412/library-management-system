@@ -1,39 +1,26 @@
-### Get all books
-GET http://localhost:8080/books
+### Create an author
 
-###
+POST http://localhost:8080/authors
+Content-Type: application/json
 
-### Get one book
-GET http://localhost:8080/books/3
+{
+  "name": "Sir Arthur Conan Doyle",
+  "nationality": "British"
+}
 
-###
+### Get all authors
+GET http://localhost:8080/authors
 
 ### Create a book
+
 POST http://localhost:8080/books
 Content-Type: application/json
 
 {
-  "id": 4,
-  "title": "Harry Potter",
-  "author": "J.K. Rowling"
-}
-
-###
-
-### Get all books again
-GET http://localhost:8080/books
-
-###
-DELETE http://localhost:8080/books/2
-
-###
-PUT http://localhost:8080/books/3
-Content-Type: application/json
-
-{
-  "id": 999,
-  "title": "Harry Potter",
-  "author": "J.K. Rowling"
+  "title": "Sherlock Holmes",
+  "author": {
+    "id": 1
+  }
 }
 ###
-GET http://localhost:8080/books
+GET http://localhost:8080/books/1
