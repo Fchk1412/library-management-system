@@ -1,5 +1,8 @@
-### Create an author
+### ============================
+### AUTHORS
+### ============================
 
+### Create Author 1
 POST http://localhost:8080/authors
 Content-Type: application/json
 
@@ -8,11 +11,57 @@ Content-Type: application/json
   "nationality": "British"
 }
 
-### Get all authors
-GET http://localhost:8080/authors
+###
 
-### Create a book
+### Create Author 2
+POST http://localhost:8080/authors
+Content-Type: application/json
 
+{
+  "name": "J.K. Rowling",
+  "nationality": "British"
+}
+
+###
+
+### Create Author 3
+POST http://localhost:8080/authors
+Content-Type: application/json
+
+{
+  "name": "George Orwell",
+  "nationality": "British"
+}
+
+###
+
+### Create Author 4
+POST http://localhost:8080/authors
+Content-Type: application/json
+
+{
+  "name": "Jules Verne",
+  "nationality": "French"
+}
+
+###
+
+### Create Author 5
+POST http://localhost:8080/authors
+Content-Type: application/json
+
+{
+  "name": "Agatha Christie",
+  "nationality": "British"
+}
+
+###
+
+### ============================
+### BOOKS
+### ============================
+
+### Sherlock Holmes
 POST http://localhost:8080/books
 Content-Type: application/json
 
@@ -22,5 +71,144 @@ Content-Type: application/json
     "id": 1
   }
 }
+
 ###
-GET http://localhost:8080/books/1
+
+### A Study in Scarlet
+POST http://localhost:8080/books
+Content-Type: application/json
+
+{
+  "title": "A Study in Scarlet",
+  "author": {
+    "id": 1
+  }
+}
+
+###
+
+### The Sign of Four
+POST http://localhost:8080/books
+Content-Type: application/json
+
+{
+  "title": "The Sign of Four",
+  "author": {
+    "id": 1
+  }
+}
+
+###
+
+### Harry Potter 1
+POST http://localhost:8080/books
+Content-Type: application/json
+
+{
+  "title": "Harry Potter and the Philosopher's Stone",
+  "author": {
+    "id": 2
+  }
+}
+
+###
+
+### Harry Potter 2
+POST http://localhost:8080/books
+Content-Type: application/json
+
+{
+  "title": "Harry Potter and the Chamber of Secrets",
+  "author": {
+    "id": 2
+  }
+}
+
+###
+
+### 1984
+POST http://localhost:8080/books
+Content-Type: application/json
+
+{
+  "title": "1984",
+  "author": {
+    "id": 3
+  }
+}
+
+###
+
+### Animal Farm
+POST http://localhost:8080/books
+Content-Type: application/json
+
+{
+  "title": "Animal Farm",
+  "author": {
+    "id": 3
+  }
+}
+
+###
+
+### Journey to the Center of the Earth
+POST http://localhost:8080/books
+Content-Type: application/json
+
+{
+  "title": "Journey to the Center of the Earth",
+  "author": {
+    "id": 4
+  }
+}
+
+###
+
+### Around the World in Eighty Days
+POST http://localhost:8080/books
+Content-Type: application/json
+
+{
+  "title": "Around the World in Eighty Days",
+  "author": {
+    "id": 4
+  }
+}
+
+###
+
+### Murder on the Orient Express
+POST http://localhost:8080/books
+Content-Type: application/json
+
+{
+  "title": "Murder on the Orient Express",
+  "author": {
+    "id": 5
+  }
+}
+
+###
+
+### ============================
+### TEST QUERIES
+### ============================
+
+### Get all authors
+GET http://localhost:8080/authors
+
+###
+
+### Get all books
+GET http://localhost:8080/books
+
+###
+
+### Find author by name
+GET http://localhost:8080/authors/name/J.K. Rowling
+
+###
+
+### Find books by author name
+GET http://localhost:8080/books/author/Jules Verne

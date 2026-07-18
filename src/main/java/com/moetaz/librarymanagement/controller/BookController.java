@@ -23,7 +23,15 @@ public class BookController {
     public Book getBook(@PathVariable Integer id){
         return  bookService.getBook(id);
     }
+    @GetMapping("/books/name/{name}")
+    public List<Book> getBooksByAuthorName(@PathVariable String name){
+        return bookService.getBooksByAuthorName(name);
+    }
 
+    @GetMapping("/books/search/{title}")
+    public List<Book> getBooksByTitle(@PathVariable String title){
+        return bookService.getBooksByTitle(title);
+    }
     @PostMapping("/books")
     public Book createBook(@RequestBody Book book) {
         return bookService.createBook(book);
