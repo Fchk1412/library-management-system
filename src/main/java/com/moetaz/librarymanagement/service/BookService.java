@@ -1,5 +1,8 @@
 package com.moetaz.librarymanagement.service;
 import com.moetaz.librarymanagement.repository.BookRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 import com.moetaz.librarymanagement.model.Book;
@@ -14,8 +17,8 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public List<Book> getBooks() {
-        return bookRepository.findAll();
+    public Page<Book> getBooks(Pageable pageable) {
+        return bookRepository.findAll(pageable);
     }
 
     public Book getBook(Integer id) {
@@ -44,12 +47,14 @@ public class BookService {
         return book;
     }
 
-    public List<Book> getBooksByAuthorName(String name) {
+    /*public List<Book> getBooksByAuthorName(String name) {
         return bookRepository.findByAuthorName(name);
-    }
-
+    }*/
     public List<Book> getBooksByTitle(String title) {
         return bookRepository.findByTitleContainingIgnoreCase(title);
+    }
+    public List<Book> getBooksByAuthorSorted(String name,Sort sort){
+        return bookRepository.findByAuthorName(name,sort);
     }
 }
 

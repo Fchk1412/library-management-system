@@ -2,6 +2,9 @@ package com.moetaz.librarymanagement.controller;
 
 import com.moetaz.librarymanagement.model.Book;
 import com.moetaz.librarymanagement.service.BookService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -15,23 +18,29 @@ public class BookController {
     }
 
     @GetMapping("/books")
-    public List<Book> getBooks() {
-        return bookService.getBooks();
+    public Page<Book> getBooks(Pageable pageable) {
+        return bookService.getBooks(pageable);
     }
 
     @GetMapping("/books/{id}")
     public Book getBook(@PathVariable Integer id){
         return  bookService.getBook(id);
     }
-    @GetMapping("/books/name/{name}")
+    /*@GetMapping("/books/author/name/{name}")
     public List<Book> getBooksByAuthorName(@PathVariable String name){
         return bookService.getBooksByAuthorName(name);
     }
+     */
 
     @GetMapping("/books/search/{title}")
     public List<Book> getBooksByTitle(@PathVariable String title){
         return bookService.getBooksByTitle(title);
     }
+    @GetMapping("/books/author/{name}")
+    public List<Book>  getBooksByAuthorSorted(@PathVariable String name, Sort sort){
+        return bookService.getBooksByAuthorSorted(name,sort);
+    }
+
     @PostMapping("/books")
     public Book createBook(@RequestBody Book book) {
         return bookService.createBook(book);
