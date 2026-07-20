@@ -218,5 +218,5 @@ Content-Type: application/json
 
 {
   "title": "His Last Bow",
-  "authorId" : 1
+  "authorId" : -3
   }

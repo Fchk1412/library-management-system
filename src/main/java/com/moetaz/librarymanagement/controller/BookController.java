@@ -4,6 +4,7 @@ import com.moetaz.librarymanagement.dto.BookDto;
 import com.moetaz.librarymanagement.dto.CreateBookRequest;
 import com.moetaz.librarymanagement.model.Book;
 import com.moetaz.librarymanagement.service.BookService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -45,7 +46,7 @@ public class BookController {
     }
 
     @PostMapping("/books")
-    public BookDto createBook(@RequestBody CreateBookRequest request){
+    public BookDto createBook(@RequestBody @Valid CreateBookRequest request){
         return bookService.createBook(request);
     }
 

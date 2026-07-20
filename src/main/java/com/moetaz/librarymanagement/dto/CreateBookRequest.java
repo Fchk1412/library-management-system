@@ -1,10 +1,18 @@
 package com.moetaz.librarymanagement.dto;
 
+
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
 import java.util.Objects;
 
 public class CreateBookRequest {
-
+    @NotBlank
     private String title;
+    @NotNull
+    @Positive
     private Integer authorId;
 
     public CreateBookRequest() {
