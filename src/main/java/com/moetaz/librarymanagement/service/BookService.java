@@ -1,4 +1,5 @@
 package com.moetaz.librarymanagement.service;
+import com.moetaz.librarymanagement.dto.BookDto;
 import com.moetaz.librarymanagement.repository.BookRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -7,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 import com.moetaz.librarymanagement.model.Book;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,8 +20,20 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public Page<Book> getBooks(Pageable pageable) {
-        return bookRepository.findAll(pageable);
+    public List<BookDto> getBooks() {
+        List<Book> books = bookRepository.findAll();
+        List<BookDto> booksDto = new ArrayList<>();
+
+        for (Book book : books) {
+            booksDto.add(
+                    new BookDto(
+                            book.getId(),
+                            book.getTitle(),
+                            book.getAuthor().getName()
+                    )
+            );
+        }
+        return booksDto;
     }
 
     public Book getBook(Integer id) {

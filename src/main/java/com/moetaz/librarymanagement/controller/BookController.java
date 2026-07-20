@@ -1,5 +1,6 @@
 package com.moetaz.librarymanagement.controller;
 
+import com.moetaz.librarymanagement.dto.BookDto;
 import com.moetaz.librarymanagement.model.Book;
 import com.moetaz.librarymanagement.service.BookService;
 import org.springframework.data.domain.Page;
@@ -18,9 +19,10 @@ public class BookController {
     }
 
     @GetMapping("/books")
-    public Page<Book> getBooks(Pageable pageable) {
-        return bookService.getBooks(pageable);
+    public List<BookDto> getBooks() {
+        return bookService.getBooks();
     }
+
 
     @GetMapping("/books/{id}")
     public Book getBook(@PathVariable Integer id){
