@@ -1,6 +1,7 @@
 package com.moetaz.librarymanagement.controller;
 
 import com.moetaz.librarymanagement.dto.BookDto;
+import com.moetaz.librarymanagement.dto.CreateBookRequest;
 import com.moetaz.librarymanagement.model.Book;
 import com.moetaz.librarymanagement.service.BookService;
 import org.springframework.data.domain.Page;
@@ -44,13 +45,15 @@ public class BookController {
     }
 
     @PostMapping("/books")
-    public Book createBook(@RequestBody Book book) {
-        return bookService.createBook(book);
+    public BookDto createBook(@RequestBody CreateBookRequest request){
+        return bookService.createBook(request);
     }
+
     @DeleteMapping("/books/{id}")
     public Book deleteBook(@PathVariable Integer id){
            return bookService.deleteBook(id);
     }
+
     @PutMapping("/books/{id}")
     public Book updateBook(@PathVariable Integer id,@RequestBody Book book){
         return bookService.updateBook(id,book);

@@ -1,10 +1,15 @@
 package com.moetaz.librarymanagement.service;
 import com.moetaz.librarymanagement.dto.BookDto;
+import com.moetaz.librarymanagement.dto.CreateBookRequest;
+import com.moetaz.librarymanagement.mapper.BookMapper;
+import com.moetaz.librarymanagement.model.Author;
+import com.moetaz.librarymanagement.repository.AuthorRepository;
 import com.moetaz.librarymanagement.repository.BookRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.server.ResponseStatusException;
 import com.moetaz.librarymanagement.model.Book;
 import org.springframework.stereotype.Service;
@@ -15,23 +20,18 @@ import java.util.List;
 @Service
 public class BookService {
     private final BookRepository bookRepository;
+    private final AuthorRepository authorRepository;
 
-    public BookService(BookRepository bookRepository) {
+    public BookService(BookRepository bookRepository,AuthorRepository authorRepository) {
         this.bookRepository = bookRepository;
+        this.authorRepository = authorRepository;
     }
 
     public List<BookDto> getBooks() {
         List<Book> books = bookRepository.findAll();
         List<BookDto> booksDto = new ArrayList<>();
-
         for (Book book : books) {
-            booksDto.add(
-                    new BookDto(
-                            book.getId(),
-                            book.getTitle(),
-                            book.getAuthor().getName()
-                    )
-            );
+            booksDto.add(BookMapper.toDto(book));
         }
         return booksDto;
     }
@@ -70,6 +70,18 @@ public class BookService {
     }
     public List<Book> getBooksByAuthorSorted(String name,Sort sort){
         return bookRepository.findByAuthorName(name,sort);
+    }
+
+    public BookDto createBook( CreateBookRequest request){
+        Author author = authorRepository.findById(request.getAuthorId())
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Author not found"
+                ));
+
+        Book book = new Book(request.getTitle(), author);
+        bookRepository.save(book);
+        return BookMapper.toDto(book);
     }
 }
 

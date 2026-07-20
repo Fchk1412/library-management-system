@@ -212,3 +212,11 @@ GET http://localhost:8080/authors/name/J.K. Rowling
 
 ### Find books by author name
 GET http://localhost:8080/books/author/Jules Verne
+### Create A book
+POST http://localhost:8080/books
+Content-Type: application/json
+
+{
+  "title": "His Last Bow",
+  "authorId" : 1
+  }
