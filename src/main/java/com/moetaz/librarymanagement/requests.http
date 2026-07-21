@@ -220,3 +220,6 @@ Content-Type: application/json
   "title": "His Last Bow",
   "authorId" : -3
   }
+###
+GET http://localhost:8080/books/92
+
