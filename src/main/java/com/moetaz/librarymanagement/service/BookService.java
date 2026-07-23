@@ -1,6 +1,7 @@
 package com.moetaz.librarymanagement.service;
 import com.moetaz.librarymanagement.dto.BookDto;
 import com.moetaz.librarymanagement.dto.CreateBookRequest;
+import com.moetaz.librarymanagement.exception.AuthorNotFoundException;
 import com.moetaz.librarymanagement.exception.BookNotFoundException;
 import com.moetaz.librarymanagement.mapper.BookMapper;
 import com.moetaz.librarymanagement.model.Author;
@@ -73,10 +74,7 @@ public class BookService {
 
     public BookDto createBook( CreateBookRequest request){
         Author author = authorRepository.findById(request.getAuthorId())
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Author not found"
-                ));
+                .orElseThrow(() -> new AuthorNotFoundException(request.getAuthorId()));
 
         Book book = new Book(request.getTitle(), author);
         bookRepository.save(book);

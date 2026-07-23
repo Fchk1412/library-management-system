@@ -1,7 +1,4 @@
 package com.moetaz.librarymanagement.exception;
-
-
-import org.hibernate.annotations.CurrentTimestamp;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import com.moetaz.librarymanagement.dto.ErrorResponse;
@@ -21,7 +18,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleBookNotFound(BookNotFoundException ex) {
         HttpStatus status = HttpStatus.NOT_FOUND;
         ErrorResponse error = new ErrorResponse
-                (       LocalDateTime.now(),
+                (LocalDateTime.now(),
                         status.value(),
                         status.getReasonPhrase(),
                         ex.getMessage());
@@ -29,12 +26,13 @@ public class GlobalExceptionHandler {
                 .status(status)
                 .body(error);
     }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleValidationError(MethodArgumentNotValidException ex){
+    public ResponseEntity<ErrorResponse> handleValidationError(MethodArgumentNotValidException ex) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         Map<String, String> validationErrors = new HashMap<>();
         for (FieldError fieldError : ex.getBindingResult().getFieldErrors()) {
-            validationErrors.put(fieldError.getField(),fieldError.getDefaultMessage());
+            validationErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
         }
         ErrorResponse error = new ErrorResponse(
                 LocalDateTime.now(),
@@ -49,6 +47,18 @@ public class GlobalExceptionHandler {
                 .body(error);
     }
 
+    @ExceptionHandler(AuthorNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleAuthorNotFound(AuthorNotFoundException ex) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        ErrorResponse error = new ErrorResponse
+                (LocalDateTime.now(),
+                        status.value(),
+                        status.getReasonPhrase(),
+                        ex.getMessage());
+        return ResponseEntity
+                .status(status)
+                .body(error);
+    }
 }
 
 

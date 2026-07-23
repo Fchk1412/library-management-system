@@ -1,10 +1,11 @@
 package com.moetaz.librarymanagement.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ErrorResponse {
 
     private LocalDateTime timestamp;

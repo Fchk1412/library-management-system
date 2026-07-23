@@ -1,6 +1,7 @@
 package com.moetaz.librarymanagement.service;
 
 
+import com.moetaz.librarymanagement.exception.AuthorNotFoundException;
 import com.moetaz.librarymanagement.model.Author;
 import com.moetaz.librarymanagement.repository.AuthorRepository;
 import com.moetaz.librarymanagement.repository.BookRepository;
@@ -24,10 +25,7 @@ public class AuthorService {
     }
     public Author getAuthor(Integer id){
         return authorRepository.findById(id)
-                .orElseThrow(()-> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Author Not Found"
-                ));
+                .orElseThrow(()-> new AuthorNotFoundException(id));
     }
     public Author createAuthor(Author author){
         return authorRepository.save(author);
