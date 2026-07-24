@@ -1,11 +1,12 @@
 package com.moetaz.librarymanagement.controller;
 
-import com.moetaz.librarymanagement.model.Author;
+import com.moetaz.librarymanagement.dto.AuthorDto;
+import com.moetaz.librarymanagement.dto.CreateAuthorRequest;
+import com.moetaz.librarymanagement.dto.UpdateAuthorRequest;
 import com.moetaz.librarymanagement.service.AuthorService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class AuthorController {
@@ -17,32 +18,32 @@ public class AuthorController {
     }
 
     @GetMapping("/authors")
-    public List<Author> getAuthors() {
-        return authorService.getAuthors();
+    public List<AuthorDto> getAuthors() {
+        return authorService.findAllAuthors();
     }
 
     @GetMapping("/authors/{id}")
-    public Author getAuthor(@PathVariable Integer id) {
+    public AuthorDto getAuthor(@PathVariable Integer id) {
         return authorService.getAuthor(id);
     }
 
     @GetMapping("/authors/name/{name}")
-    public Optional<Author> getAuthorByName(@PathVariable String name) {
+    public AuthorDto getAuthorByName(@PathVariable String name) {
         return authorService.getAuthorByName(name);
     }
 
     @PostMapping("/authors")
-    public Author createAuthor(@RequestBody Author author) {
-        return authorService.createAuthor(author);
+    public AuthorDto createAuthor(@RequestBody @Valid CreateAuthorRequest request) {
+        return authorService.createAuthor(request);
     }
 
     @DeleteMapping("/authors/{id}")
-    public Author deleteAuthor(@PathVariable Integer id) {
+    public AuthorDto deleteAuthor(@PathVariable Integer id) {
         return authorService.deleteAuthor(id);
     }
 
     @PutMapping("/authors/{id}")
-    public Author updateAuthor(@PathVariable Integer id, @RequestBody Author author) {
-        return authorService.updateAuthor(id, author);
+    public AuthorDto updateAuthor(@PathVariable Integer id, @RequestBody @Valid UpdateAuthorRequest request) {
+        return authorService.updateAuthor(id, request);
     }
 }

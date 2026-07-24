@@ -1,26 +1,18 @@
-package com.moetaz.librarymanagement.model;
+package com.moetaz.librarymanagement.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-
-import java.util.List;
 import java.util.Objects;
 
-@Entity
-public class Author {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class AuthorDto {
+
     private Integer id;
     private String name;
     private String nationality;
-    @OneToMany(mappedBy = "author")
-    @JsonIgnore
-    private List<Book> books;
 
-    public Author() {
-
+    public AuthorDto() {
     }
-    public Author(String name, String nationality) {
+
+    public AuthorDto(Integer id, String name, String nationality) {
+        this.id = id;
         this.name = name;
         this.nationality = nationality;
     }
@@ -49,19 +41,11 @@ public class Author {
         this.nationality = nationality;
     }
 
-    public List<Book> getBooks() {
-        return books;
-    }
-
-    public void setBooks(List<Book> books) {
-        this.books = books;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Author author = (Author) o;
-        return Objects.equals(id, author.id) && Objects.equals(name, author.name) && Objects.equals(nationality, author.nationality);
+        AuthorDto authorDto = (AuthorDto) o;
+        return Objects.equals(id, authorDto.id) && Objects.equals(name, authorDto.name) && Objects.equals(nationality, authorDto.nationality);
     }
 
     @Override
