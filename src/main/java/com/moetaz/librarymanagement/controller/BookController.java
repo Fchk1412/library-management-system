@@ -2,11 +2,10 @@ package com.moetaz.librarymanagement.controller;
 
 import com.moetaz.librarymanagement.dto.BookDto;
 import com.moetaz.librarymanagement.dto.CreateBookRequest;
+import com.moetaz.librarymanagement.dto.UpdateBookRequest;
 import com.moetaz.librarymanagement.model.Book;
 import com.moetaz.librarymanagement.service.BookService;
 import jakarta.validation.Valid;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -22,26 +21,21 @@ public class BookController {
 
     @GetMapping("/books")
     public List<BookDto> getBooks() {
-        return bookService.getBooks();
+        return bookService.findAllBooks();
     }
 
 
     @GetMapping("/books/{id}")
-    public Book getBook(@PathVariable Integer id){
+    public BookDto getBook(@PathVariable Integer id){
         return  bookService.getBook(id);
     }
-    /*@GetMapping("/books/author/name/{name}")
-    public List<Book> getBooksByAuthorName(@PathVariable String name){
-        return bookService.getBooksByAuthorName(name);
-    }
-     */
 
     @GetMapping("/books/search/{title}")
-    public List<Book> getBooksByTitle(@PathVariable String title){
+    public List<BookDto> getBooksByTitle(@PathVariable String title){
         return bookService.getBooksByTitle(title);
     }
     @GetMapping("/books/author/{name}")
-    public List<Book>  getBooksByAuthorSorted(@PathVariable String name, Sort sort){
+    public List<BookDto>  getBooksByAuthorSorted(@PathVariable String name, Sort sort){
         return bookService.getBooksByAuthorSorted(name,sort);
     }
 
@@ -51,13 +45,13 @@ public class BookController {
     }
 
     @DeleteMapping("/books/{id}")
-    public Book deleteBook(@PathVariable Integer id){
+    public BookDto deleteBook(@PathVariable Integer id){
            return bookService.deleteBook(id);
     }
 
     @PutMapping("/books/{id}")
-    public Book updateBook(@PathVariable Integer id,@RequestBody Book book){
-        return bookService.updateBook(id,book);
+    public BookDto updateBook(@PathVariable Integer id,@RequestBody @Valid UpdateBookRequest request){
+        return bookService.updateBook(id,request);
 
     }
 }

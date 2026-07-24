@@ -4,10 +4,7 @@ package com.moetaz.librarymanagement.service;
 import com.moetaz.librarymanagement.exception.AuthorNotFoundException;
 import com.moetaz.librarymanagement.model.Author;
 import com.moetaz.librarymanagement.repository.AuthorRepository;
-import com.moetaz.librarymanagement.repository.BookRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;

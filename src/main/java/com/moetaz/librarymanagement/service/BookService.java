@@ -1,22 +1,18 @@
 package com.moetaz.librarymanagement.service;
+
 import com.moetaz.librarymanagement.dto.BookDto;
 import com.moetaz.librarymanagement.dto.CreateBookRequest;
+import com.moetaz.librarymanagement.dto.UpdateBookRequest;
 import com.moetaz.librarymanagement.exception.AuthorNotFoundException;
 import com.moetaz.librarymanagement.exception.BookNotFoundException;
 import com.moetaz.librarymanagement.mapper.BookMapper;
 import com.moetaz.librarymanagement.model.Author;
 import com.moetaz.librarymanagement.repository.AuthorRepository;
 import com.moetaz.librarymanagement.repository.BookRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.server.ResponseStatusException;
 import com.moetaz.librarymanagement.model.Book;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,58 +20,69 @@ public class BookService {
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
 
-    public BookService(BookRepository bookRepository,AuthorRepository authorRepository) {
+    public BookService(BookRepository bookRepository,
+                       AuthorRepository authorRepository)
+    {
         this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
     }
 
-    public List<BookDto> getBooks() {
-        List<Book> books = bookRepository.findAll();
-        List<BookDto> booksDto = new ArrayList<>();
-        for (Book book : books) {
-            booksDto.add(BookMapper.toDto(book));
-        }
-        return booksDto;
-    }
+// =========================
+// Private helper methods
+// =========================
 
-    public Book getBook(Integer id) {
+    private Book findBookOrThrow(Integer id) {
         return bookRepository.findById(id)
-                .orElseThrow(() -> new BookNotFoundException(id)
-                );
+                .orElseThrow(() -> new BookNotFoundException(id));
+    }
+    private Author findAuthorOrThrow(Integer id){
+        return authorRepository.findById(id)
+                .orElseThrow(() -> new AuthorNotFoundException(id));
     }
 
-    public Book createBook(Book book) {
-        return bookRepository.save(book);
+
+// =========================
+// Public service methods
+// =========================
+
+    public List<BookDto> findAllBooks() {
+        List<Book> books = bookRepository.findAll();
+        return BookMapper.toListDto(books);
     }
 
-    public Book deleteBook(Integer id) {
-        Book book = getBook(id);
+    public BookDto getBook(Integer id) {
+        return BookMapper.toDto(findBookOrThrow(id));
+    }
+
+
+    public BookDto deleteBook(Integer id) {
+        Book book = findBookOrThrow(id);
         bookRepository.delete(book);
-        return book;
+        return BookMapper.toDto(book);
     }
 
-    public Book updateBook(Integer id, Book updatedBook) {
-        Book book = getBook(id);
-        book.setTitle(updatedBook.getTitle());
-        book.setAuthor(updatedBook.getAuthor());
+    public BookDto updateBook(Integer id, UpdateBookRequest request) {
+        Book book = findBookOrThrow(id);
+        book.setTitle(request.getTitle());
+        Author author = findAuthorOrThrow(request.getAuthorId());
+        book.setAuthor(author);
         bookRepository.save(book);
-        return book;
+        return BookMapper.toDto(book);
     }
 
-    /*public List<Book> getBooksByAuthorName(String name) {
-        return bookRepository.findByAuthorName(name);
-    }*/
-    public List<Book> getBooksByTitle(String title) {
-        return bookRepository.findByTitleContainingIgnoreCase(title);
-    }
-    public List<Book> getBooksByAuthorSorted(String name,Sort sort){
-        return bookRepository.findByAuthorName(name,sort);
+
+    public List<BookDto> getBooksByTitle(String title) {
+        List<Book> books = bookRepository.findByTitleContainingIgnoreCase(title);
+        return BookMapper.toListDto(books);
     }
 
-    public BookDto createBook( CreateBookRequest request){
-        Author author = authorRepository.findById(request.getAuthorId())
-                .orElseThrow(() -> new AuthorNotFoundException(request.getAuthorId()));
+    public List<BookDto> getBooksByAuthorSorted(String name, Sort sort) {
+        List<Book> books = bookRepository.findByAuthorName(name, sort);
+        return BookMapper.toListDto(books);
+    }
 
+    public BookDto createBook(CreateBookRequest request) {
+        Author author = findAuthorOrThrow(request.getAuthorId());
         Book book = new Book(request.getTitle(), author);
         bookRepository.save(book);
         return BookMapper.toDto(book);

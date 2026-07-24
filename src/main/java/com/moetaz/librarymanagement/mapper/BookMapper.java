@@ -1,11 +1,10 @@
 package com.moetaz.librarymanagement.mapper;
 
 import com.moetaz.librarymanagement.dto.BookDto;
-import com.moetaz.librarymanagement.dto.CreateBookRequest;
 import com.moetaz.librarymanagement.model.Book;
-import com.moetaz.librarymanagement.service.AuthorService;
-import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class BookMapper {
@@ -18,4 +17,12 @@ public class BookMapper {
                 book.getAuthor().getName());
     }
 
+    public static List<BookDto> toListDto(List<Book> books){
+    List<BookDto> booksDto = new ArrayList<>();
+        for (Book book : books) {
+        booksDto.add(BookMapper.toDto(book));
+        }
+        return booksDto;
+
+}
 }
