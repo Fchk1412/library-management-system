@@ -2,6 +2,7 @@ package com.moetaz.librarymanagement.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Objects;
 @Entity
  public class Book {
@@ -12,7 +13,8 @@ import java.util.Objects;
     @ManyToOne
     @JoinColumn(name = "author_id")
     private Author author;
-
+    @OneToMany(mappedBy = "book")
+    private List<BorrowRecord> borrowRecords;
     public Book() {
     }
 
