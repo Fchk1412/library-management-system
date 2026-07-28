@@ -25,6 +25,9 @@ public class BorrowRecord {
     @JoinColumn(name = "book_id")
     private Book book;
 
+    public BorrowRecord() {
+    }
+
     public BorrowRecord(LocalDateTime borrowDate, LocalDateTime returnDate, User user, Book book) {
         this.borrowDate = borrowDate;
         this.returnDate = returnDate;

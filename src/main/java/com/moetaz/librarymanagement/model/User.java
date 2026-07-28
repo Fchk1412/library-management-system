@@ -2,6 +2,7 @@ package com.moetaz.librarymanagement.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,8 +15,7 @@ public class User {
     private String name;
     private String email;
     @OneToMany(mappedBy = "user")
-    private List<BorrowRecord> borrowRecords;
-
+    private List<BorrowRecord> borrowRecords = new ArrayList<>();
     public User() {
     }
 

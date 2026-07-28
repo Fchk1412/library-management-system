@@ -6,14 +6,18 @@ public class BookDto {
     private Integer id;
     private String title;
     private String author;
+    private boolean available;
+
 
     public BookDto() {
     }
 
-    public BookDto(Integer id, String title, String author) {
+    public BookDto(Integer id, String title, String author,Boolean available) {
         this.id = id;
         this.title = title;
         this.author = author;
+        this.available = available;
+
     }
 
     public Integer getId() {
@@ -40,15 +44,23 @@ public class BookDto {
         this.author = author;
     }
 
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         BookDto bookDto = (BookDto) o;
-        return Objects.equals(id, bookDto.id) && Objects.equals(title, bookDto.title) && Objects.equals(author, bookDto.author);
+        return available == bookDto.available && Objects.equals(id, bookDto.id) && Objects.equals(title, bookDto.title) && Objects.equals(author, bookDto.author);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, author);
+        return Objects.hash(id, title, author, available);
     }
 }

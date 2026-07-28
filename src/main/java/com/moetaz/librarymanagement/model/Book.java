@@ -2,6 +2,7 @@ package com.moetaz.librarymanagement.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 @Entity
@@ -14,7 +15,8 @@ import java.util.Objects;
     @JoinColumn(name = "author_id")
     private Author author;
     @OneToMany(mappedBy = "book")
-    private List<BorrowRecord> borrowRecords;
+    private List<BorrowRecord> borrowRecords = new ArrayList<>();
+    private boolean available = true;
     public Book() {
     }
 
@@ -47,15 +49,23 @@ import java.util.Objects;
         this.title = title;
     }
 
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Book Book = (Book) o;
-        return Objects.equals(id, Book.id) && Objects.equals(title, Book.title) && Objects.equals(author, Book.author);
+        Book book = (Book) o;
+        return available == book.available && Objects.equals(id, book.id) && Objects.equals(title, book.title) && Objects.equals(author, book.author);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, author);
+        return Objects.hash(id, title, author, available);
     }
 }

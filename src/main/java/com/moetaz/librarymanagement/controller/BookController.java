@@ -1,6 +1,7 @@
 package com.moetaz.librarymanagement.controller;
 
 import com.moetaz.librarymanagement.dto.BookDto;
+import com.moetaz.librarymanagement.dto.BorrowBookRequest;
 import com.moetaz.librarymanagement.dto.CreateBookRequest;
 import com.moetaz.librarymanagement.dto.UpdateBookRequest;
 import com.moetaz.librarymanagement.model.Book;
@@ -44,9 +45,9 @@ public class BookController {
         return bookService.createBook(request);
     }
 
-    @DeleteMapping("/books/{id}")
-    public BookDto deleteBook(@PathVariable Integer id){
-           return bookService.deleteBook(id);
+    @PostMapping("/books/{bookId}/borrow")
+    public BookDto borrowBook(@PathVariable Integer bookId, @RequestBody @Valid BorrowBookRequest request){
+        return bookService.borrowBook(bookId,request);
     }
 
     @PutMapping("/books/{id}")
@@ -54,4 +55,13 @@ public class BookController {
         return bookService.updateBook(id,request);
 
     }
+
+                              @DeleteMapping("/books/{id}")
+    public BookDto deleteBook(@PathVariable Integer id){
+           return bookService.deleteBook(id);
+    }
+
+
+
+
 }

@@ -1,30 +1,44 @@
 package com.moetaz.librarymanagement.service;
 
 import com.moetaz.librarymanagement.dto.BookDto;
+import com.moetaz.librarymanagement.dto.BorrowBookRequest;
 import com.moetaz.librarymanagement.dto.CreateBookRequest;
 import com.moetaz.librarymanagement.dto.UpdateBookRequest;
 import com.moetaz.librarymanagement.exception.AuthorNotFoundException;
 import com.moetaz.librarymanagement.exception.BookNotFoundException;
+import com.moetaz.librarymanagement.exception.UserNotFoundExeption;
 import com.moetaz.librarymanagement.mapper.BookMapper;
 import com.moetaz.librarymanagement.model.Author;
+import com.moetaz.librarymanagement.model.BorrowRecord;
+import com.moetaz.librarymanagement.model.User;
 import com.moetaz.librarymanagement.repository.AuthorRepository;
 import com.moetaz.librarymanagement.repository.BookRepository;
+import com.moetaz.librarymanagement.repository.BorrowRecordRepository;
+import com.moetaz.librarymanagement.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Sort;
 import com.moetaz.librarymanagement.model.Book;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class BookService {
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
+    private final UserRepository userRepository;
+    private  final BorrowRecordRepository borrowRecordRepository;
 
     public BookService(BookRepository bookRepository,
-                       AuthorRepository authorRepository)
+                       AuthorRepository authorRepository,
+                       UserRepository userRepository,
+                       BorrowRecordRepository borrowRecordRepository)
     {
         this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
+        this.userRepository = userRepository;
+        this.borrowRecordRepository = borrowRecordRepository;
     }
 
 // =========================
@@ -38,6 +52,10 @@ public class BookService {
     private Author findAuthorOrThrow(Integer id){
         return authorRepository.findById(id)
                 .orElseThrow(() -> new AuthorNotFoundException(id));
+    }
+    private User findUserOrThrow(Integer id){
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundExeption(id));
     }
 
 
@@ -70,6 +88,16 @@ public class BookService {
         return BookMapper.toDto(book);
     }
 
+    @Transactional
+    public BookDto borrowBook(Integer bookId, BorrowBookRequest request){
+        Book book = findBookOrThrow(bookId);
+        BorrowRecord record = new BorrowRecord(LocalDateTime.now(),null,findUserOrThrow(request.getUserId()),book);
+        book.setAvailable(false);
+        borrowRecordRepository.save(record);
+        bookRepository.save(book);
+        return BookMapper.toDto(book);
+
+    }
 
     public List<BookDto> getBooksByTitle(String title) {
         List<Book> books = bookRepository.findByTitleContainingIgnoreCase(title);
