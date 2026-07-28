@@ -1,228 +1,157 @@
-### ============================
+### ======================================
 ### AUTHORS
-### ============================
+### ======================================
 
-### Create Author 1
 POST http://localhost:8080/authors
 Content-Type: application/json
 
 {
-  "name": "Sir Arthur Conan Doyle",
-  "nationality": "British"
+  "name": "Robert C. Martin",
+  "nationality": "American"
 }
 
 ###
 
-### Create Author 2
 POST http://localhost:8080/authors
 Content-Type: application/json
 
 {
-  "name": "J.K. Rowling",
-  "nationality": "British"
+  "name": "Joshua Bloch",
+  "nationality": "American"
 }
 
 ###
 
-### Create Author 3
 POST http://localhost:8080/authors
 Content-Type: application/json
 
 {
-  "name": "George Orwell",
-  "nationality": "British"
+  "name": "Martin Fowler",
+  "nationality": "Australian"
 }
 
 ###
 
-### Create Author 4
 POST http://localhost:8080/authors
 Content-Type: application/json
 
 {
-  "name": "Jules Verne",
-  "nationality": "French"
+  "name": "Erich Gamma",
+  "nationality": "Swiss"
 }
 
 ###
 
-### Create Author 5
 POST http://localhost:8080/authors
 Content-Type: application/json
 
 {
-  "name": "Agatha Christie",
-  "nationality": "British"
+  "name": "Andrew Hunt",
+  "nationality": "American"
 }
 
 ###
 
-### ============================
-### BOOKS
-### ============================
-
-### Sherlock Holmes
-POST http://localhost:8080/books
-Content-Type: application/json
-
-{
-  "title": "Sherlock Holmes",
-  "author": {
-    "id": 1
-  }
-}
-
-###
-
-### A Study in Scarlet
-POST http://localhost:8080/books
-Content-Type: application/json
-
-{
-  "title": "A Study in Scarlet",
-  "author": {
-    "id": 1
-  }
-}
-
-###
-
-### The Sign of Four
-POST http://localhost:8080/books
-Content-Type: application/json
-
-{
-  "title": "The Sign of Four",
-  "author": {
-    "id": 1
-  }
-}
-
-###
-
-### Harry Potter 1
-POST http://localhost:8080/books
-Content-Type: application/json
-
-{
-  "title": "Harry Potter and the Philosopher's Stone",
-  "author": {
-    "id": 2
-  }
-}
-
-###
-
-### Harry Potter 2
-POST http://localhost:8080/books
-Content-Type: application/json
-
-{
-  "title": "Harry Potter and the Chamber of Secrets",
-  "author": {
-    "id": 2
-  }
-}
-
-###
-
-### 1984
-POST http://localhost:8080/books
-Content-Type: application/json
-
-{
-  "title": "1984",
-  "author": {
-    "id": 3
-  }
-}
-
-###
-
-### Animal Farm
-POST http://localhost:8080/books
-Content-Type: application/json
-
-{
-  "title": "Animal Farm",
-  "author": {
-    "id": 3
-  }
-}
-
-###
-
-### Journey to the Center of the Earth
-POST http://localhost:8080/books
-Content-Type: application/json
-
-{
-  "title": "Journey to the Center of the Earth",
-  "author": {
-    "id": 4
-  }
-}
-
-###
-
-### Around the World in Eighty Days
-POST http://localhost:8080/books
-Content-Type: application/json
-
-{
-  "title": "Around the World in Eighty Days",
-  "author": {
-    "id": 4
-  }
-}
-
-###
-
-### Murder on the Orient Express
-POST http://localhost:8080/books
-Content-Type: application/json
-
-{
-  "title": "Murder on the Orient Express",
-  "author": {
-    "id": 5
-  }
-}
-
-###
-
-### ============================
-### TEST QUERIES
-### ============================
-
-### Get all authors
 GET http://localhost:8080/authors
 
+### ======================================
+### USERS
+### ======================================
+
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "name": "Alice Johnson",
+  "email": "alice@example.com"
+}
+
 ###
 
-### Get all books
-GET http://localhost:8080/books
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "name": "Bob Smith",
+  "email": "bob@example.com"
+}
 
 ###
 
-### Find author by name
-GET http://localhost:8080/authors/name/J.K. Rowling
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "name": "Charlie Brown",
+  "email": "charlie@example.com"
+}
 
 ###
 
-### Find books by author name
-GET http://localhost:8080/books/author/Jules Verne
-### Create A book
+GET http://localhost:8080/users
+
+### ======================================
+### BOOKS
+### ======================================
+
 POST http://localhost:8080/books
 Content-Type: application/json
 
 {
-  "title": "His Last Bow",
-  "authorId" : -3
-  }
+  "title": "Clean Code",
+  "authorId": 1
+}
+
 ###
 
-GET http://localhost:8080/books/92
+POST http://localhost:8080/books
+Content-Type: application/json
 
+{
+  "title": "Clean Architecture",
+  "authorId": 1
+}
 
+###
 
+POST http://localhost:8080/books
+Content-Type: application/json
+
+{
+  "title": "Effective Java",
+  "authorId": 2
+}
+
+###
+
+POST http://localhost:8080/books
+Content-Type: application/json
+
+{
+  "title": "Refactoring",
+  "authorId": 3
+}
+
+###
+
+POST http://localhost:8080/books
+Content-Type: application/json
+
+{
+  "title": "Design Patterns",
+  "authorId": 4
+}
+
+###
+
+POST http://localhost:8080/books
+Content-Type: application/json
+
+{
+  "title": "The Pragmatic Programmer",
+  "authorId": 5
+}
+
+###
+
+GET http://localhost:8080/books

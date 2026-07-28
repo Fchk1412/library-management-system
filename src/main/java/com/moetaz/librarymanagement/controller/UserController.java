@@ -1,11 +1,12 @@
 package com.moetaz.librarymanagement.controller;
 
 
+import com.moetaz.librarymanagement.dto.CreateUserRequest;
+import com.moetaz.librarymanagement.dto.UpdateUserRequest;
 import com.moetaz.librarymanagement.dto.UserDto;
 import com.moetaz.librarymanagement.service.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +28,18 @@ public class UserController {
         return userService.getUser(id);
     }
 
+    @PostMapping("/users")
+    public UserDto createUser(@RequestBody @Valid CreateUserRequest request){
+        return userService.createUser(request);
+    }
 
+    @PutMapping("/users/{id}")
+    public UserDto updateUser(@PathVariable Integer id, @RequestBody @Valid UpdateUserRequest request){
+        return userService.updateUser(id,request);
+    }
+
+    @DeleteMapping("/users/{id}")
+    public UserDto deleteUser(@PathVariable Integer id){
+        return userService.deleteUser(id);
+    }
 }

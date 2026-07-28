@@ -4,7 +4,6 @@ import com.moetaz.librarymanagement.dto.BookDto;
 import com.moetaz.librarymanagement.dto.BorrowBookRequest;
 import com.moetaz.librarymanagement.dto.CreateBookRequest;
 import com.moetaz.librarymanagement.dto.UpdateBookRequest;
-import com.moetaz.librarymanagement.model.Book;
 import com.moetaz.librarymanagement.service.BookService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Sort;

@@ -1,5 +1,7 @@
 package com.moetaz.librarymanagement.service;
 
+import com.moetaz.librarymanagement.dto.CreateUserRequest;
+import com.moetaz.librarymanagement.dto.UpdateUserRequest;
 import com.moetaz.librarymanagement.dto.UserDto;
 import com.moetaz.librarymanagement.exception.UserNotFoundExeption;
 import com.moetaz.librarymanagement.mapper.UserMapper;
@@ -12,7 +14,7 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
 
-    public  UserService(UserRepository userRepository){
+    public  UserService(UserRepository userRepository, BookService bookService){
         this.userRepository = userRepository;
     }
 
@@ -31,5 +33,25 @@ public class UserService {
         return UserMapper.toDto(findUserOrThrow(id));
     }
 
+    public UserDto createUser(CreateUserRequest request){
+
+        User user = new User(request.getName(), request.getEmail());
+        userRepository.save(user);
+        return UserMapper.toDto(user);
+    }
+
+    public UserDto updateUser(Integer id, UpdateUserRequest request){
+        User user = findUserOrThrow(id);
+        user.setEmail(request.getEmail());
+        user.setName(request.getName());
+        userRepository.save(user);
+        return UserMapper.toDto(user);
+    }
+
+    public UserDto deleteUser(Integer id){
+        User user = findUserOrThrow(id);
+        userRepository.delete(user);
+        return UserMapper.toDto(user);
+    }
 
 }
