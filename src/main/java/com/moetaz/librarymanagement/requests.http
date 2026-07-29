@@ -155,3 +155,12 @@ Content-Type: application/json
 ###
 
 GET http://localhost:8080/books
+
+###
+
+POST http://localhost:8080/books/2/borrow
+Content-Type: application/json
+
+{
+  "userId": 1
+}

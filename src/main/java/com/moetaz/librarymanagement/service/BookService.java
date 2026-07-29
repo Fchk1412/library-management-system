@@ -5,6 +5,7 @@ import com.moetaz.librarymanagement.dto.BorrowBookRequest;
 import com.moetaz.librarymanagement.dto.CreateBookRequest;
 import com.moetaz.librarymanagement.dto.UpdateBookRequest;
 import com.moetaz.librarymanagement.exception.AuthorNotFoundException;
+import com.moetaz.librarymanagement.exception.BookNotAvailableException;
 import com.moetaz.librarymanagement.exception.BookNotFoundException;
 import com.moetaz.librarymanagement.exception.UserNotFoundExeption;
 import com.moetaz.librarymanagement.mapper.BookMapper;
@@ -91,10 +92,17 @@ public class BookService {
     @Transactional
     public BookDto borrowBook(Integer bookId, BorrowBookRequest request){
         Book book = findBookOrThrow(bookId);
-        BorrowRecord record = new BorrowRecord(LocalDateTime.now(),null,findUserOrThrow(request.getUserId()),book);
+        User user =  findUserOrThrow(request.getUserId());
+        if (!book.isAvailable()){
+            throw new BookNotAvailableException(bookId);
+        }
+        BorrowRecord record = new BorrowRecord(
+                LocalDateTime.now(),
+                null,
+                user,
+                book);
         book.setAvailable(false);
         borrowRecordRepository.save(record);
-        bookRepository.save(book);
         return BookMapper.toDto(book);
 
     }
