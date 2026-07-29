@@ -83,6 +83,18 @@ public class GlobalExceptionHandler {
                 .status(status)
                 .body(error);
     }
+    @ExceptionHandler(BookNotBorrowedException.class)
+    public ResponseEntity<ErrorResponse> handleBookNotBorrowed(BookNotBorrowedException ex) {
+        HttpStatus status = HttpStatus.CONFLICT;
+        ErrorResponse error = new ErrorResponse
+                (LocalDateTime.now(),
+                        status.value(),
+                        status.getReasonPhrase(),
+                        ex.getMessage());
+        return ResponseEntity
+                .status(status)
+                .body(error);
+    }
 }
 
 

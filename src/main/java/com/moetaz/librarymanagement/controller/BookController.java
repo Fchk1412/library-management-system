@@ -55,7 +55,12 @@ public class BookController {
 
     }
 
-                              @DeleteMapping("/books/{id}")
+    @PutMapping("/books/{id}/return")
+    public BookDto returnBook(@PathVariable Integer id){
+        return bookService.returnBook(id);
+    }
+
+    @DeleteMapping("/books/{id}")
     public BookDto deleteBook(@PathVariable Integer id){
            return bookService.deleteBook(id);
     }

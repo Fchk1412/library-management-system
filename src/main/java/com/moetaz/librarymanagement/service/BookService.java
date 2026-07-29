@@ -4,10 +4,7 @@ import com.moetaz.librarymanagement.dto.BookDto;
 import com.moetaz.librarymanagement.dto.BorrowBookRequest;
 import com.moetaz.librarymanagement.dto.CreateBookRequest;
 import com.moetaz.librarymanagement.dto.UpdateBookRequest;
-import com.moetaz.librarymanagement.exception.AuthorNotFoundException;
-import com.moetaz.librarymanagement.exception.BookNotAvailableException;
-import com.moetaz.librarymanagement.exception.BookNotFoundException;
-import com.moetaz.librarymanagement.exception.UserNotFoundExeption;
+import com.moetaz.librarymanagement.exception.*;
 import com.moetaz.librarymanagement.mapper.BookMapper;
 import com.moetaz.librarymanagement.model.Author;
 import com.moetaz.librarymanagement.model.BorrowRecord;
@@ -57,6 +54,11 @@ public class BookService {
     private User findUserOrThrow(Integer id){
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundExeption(id));
+    }
+
+    private BorrowRecord findActiveBorrowRecordOrThrow(Integer id){
+        return borrowRecordRepository.findByBookIdAndReturnDateIsNull(id).
+                orElseThrow(() -> new BookNotBorrowedException(id));
     }
 
 
@@ -121,6 +123,15 @@ public class BookService {
         Author author = findAuthorOrThrow(request.getAuthorId());
         Book book = new Book(request.getTitle(), author);
         bookRepository.save(book);
+        return BookMapper.toDto(book);
+    }
+
+    @Transactional
+    public BookDto returnBook(Integer bookId){
+        Book book = findBookOrThrow(bookId);
+        BorrowRecord borrowRecord = findActiveBorrowRecordOrThrow(bookId);
+        book.setAvailable(true);
+        borrowRecord.setReturnDate(LocalDateTime.now());
         return BookMapper.toDto(book);
     }
 }

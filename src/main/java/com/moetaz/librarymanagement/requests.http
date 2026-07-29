@@ -164,3 +164,6 @@ Content-Type: application/json
 {
   "userId": 1
 }
+
+###
+PUT http://localhost:8080/books/1/return
