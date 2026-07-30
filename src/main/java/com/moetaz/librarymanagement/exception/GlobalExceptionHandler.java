@@ -59,8 +59,8 @@ public class GlobalExceptionHandler {
                 .status(status)
                 .body(error);
     }
-    @ExceptionHandler(UserNotFoundExeption.class)
-    public ResponseEntity<ErrorResponse> handleUsrNotFound(UserNotFoundExeption ex) {
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUsrNotFound(UserNotFoundException ex) {
         HttpStatus status = HttpStatus.NOT_FOUND;
         ErrorResponse error = new ErrorResponse
                 (LocalDateTime.now(),

@@ -3,7 +3,7 @@ package com.moetaz.librarymanagement.service;
 import com.moetaz.librarymanagement.dto.CreateUserRequest;
 import com.moetaz.librarymanagement.dto.UpdateUserRequest;
 import com.moetaz.librarymanagement.dto.UserDto;
-import com.moetaz.librarymanagement.exception.UserNotFoundExeption;
+import com.moetaz.librarymanagement.exception.UserNotFoundException;
 import com.moetaz.librarymanagement.mapper.UserMapper;
 import com.moetaz.librarymanagement.model.User;
 import com.moetaz.librarymanagement.repository.UserRepository;
@@ -21,7 +21,7 @@ public class UserService {
 
     private User findUserOrThrow(Integer id){
         return userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundExeption(id));
+                .orElseThrow(() -> new UserNotFoundException(id));
     }
 
 
@@ -35,7 +35,10 @@ public class UserService {
 
     public UserDto createUser(CreateUserRequest request){
 
-        User user = new User(request.getName(), request.getEmail());
+        User user = new User(
+                request.getName(),
+                request.getEmail(),
+                request.getPassword());
         userRepository.save(user);
         return UserMapper.toDto(user);
     }

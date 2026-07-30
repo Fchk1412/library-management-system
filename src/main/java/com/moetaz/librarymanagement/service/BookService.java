@@ -53,7 +53,7 @@ public class BookService {
     }
     private User findUserOrThrow(Integer id){
         return userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundExeption(id));
+                .orElseThrow(() -> new UserNotFoundException(id));
     }
 
     private BorrowRecord findActiveBorrowRecordOrThrow(Integer id){

@@ -7,7 +7,6 @@ public class UserDto {
     private Integer id;
     private String name;
     private String email;
-
     public UserDto() {
     }
 
@@ -40,6 +39,7 @@ public class UserDto {
     public void setEmail(String email) {
         this.email = email;
     }
+
 
     @Override
     public boolean equals(Object o) {
