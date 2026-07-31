@@ -7,15 +7,18 @@ import com.moetaz.librarymanagement.exception.UserNotFoundException;
 import com.moetaz.librarymanagement.mapper.UserMapper;
 import com.moetaz.librarymanagement.model.User;
 import com.moetaz.librarymanagement.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
-
-    public  UserService(UserRepository userRepository, BookService bookService){
+    private final PasswordEncoder passwordEncoder;
+    public  UserService(UserRepository userRepository,
+                        PasswordEncoder passwordEncoder){
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -34,11 +37,11 @@ public class UserService {
     }
 
     public UserDto createUser(CreateUserRequest request){
-
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
         User user = new User(
                 request.getName(),
                 request.getEmail(),
-                request.getPassword());
+                encodedPassword);
         userRepository.save(user);
         return UserMapper.toDto(user);
     }

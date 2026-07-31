@@ -167,3 +167,14 @@ Content-Type: application/json
 
 ###
 PUT http://localhost:8080/books/1/return
+
+###
+
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "name": "Moetaz",
+  "email": "moetaz@example.com",
+  "password": "tazz123"
+}
