@@ -178,3 +178,11 @@ Content-Type: application/json
   "email": "moetaz@example.com",
   "password": "tazz123"
 }
+###
+POST http://localhost:8080/Auth/login
+Content-Type: application/json
+
+{
+  "email": "moetaz@example.com",
+  "password": "tazz123"
+}
