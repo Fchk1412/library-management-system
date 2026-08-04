@@ -1,6 +1,5 @@
 package com.moetaz.librarymanagement.service;
 
-
 import com.moetaz.librarymanagement.dto.AuthorDto;
 import com.moetaz.librarymanagement.dto.CreateAuthorRequest;
 import com.moetaz.librarymanagement.dto.UpdateAuthorRequest;
@@ -8,8 +7,9 @@ import com.moetaz.librarymanagement.exception.AuthorNotFoundException;
 import com.moetaz.librarymanagement.mapper.AuthorMapper;
 import com.moetaz.librarymanagement.model.Author;
 import com.moetaz.librarymanagement.repository.AuthorRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import java.util.List;
 
 @Service
 public class AuthorService {
@@ -21,17 +21,16 @@ public class AuthorService {
     }
 
     // =========================
-// Private helper methods
-// =========================
-
+    // Private helper methods
+    // =========================
 
     private Author findAuthorOrThrow(Integer id) {
         return authorRepository.findById(id)
                 .orElseThrow(() -> new AuthorNotFoundException(id));
     }
 
-    public List<AuthorDto> findAllAuthors() {
-        return AuthorMapper.toListDto(authorRepository.findAll());
+    public Page<AuthorDto> findAllAuthors(Pageable pageable) {
+        return authorRepository.findAll(pageable).map(AuthorMapper::toDto);
     }
 
     public AuthorDto getAuthor(Integer id) {
@@ -41,8 +40,7 @@ public class AuthorService {
     public AuthorDto createAuthor(CreateAuthorRequest request) {
         Author author = new Author(
                 request.getName(),
-                request.getNationality()
-        );
+                request.getNationality());
         authorRepository.save(author);
         return AuthorMapper.toDto(author);
     }

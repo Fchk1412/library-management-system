@@ -14,10 +14,11 @@ import com.moetaz.librarymanagement.repository.BookRepository;
 import com.moetaz.librarymanagement.repository.BorrowRecordRepository;
 import com.moetaz.librarymanagement.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import com.moetaz.librarymanagement.model.Book;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -26,55 +27,53 @@ public class BookService {
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
     private final UserRepository userRepository;
-    private  final BorrowRecordRepository borrowRecordRepository;
+    private final BorrowRecordRepository borrowRecordRepository;
 
     public BookService(BookRepository bookRepository,
-                       AuthorRepository authorRepository,
-                       UserRepository userRepository,
-                       BorrowRecordRepository borrowRecordRepository)
-    {
+            AuthorRepository authorRepository,
+            UserRepository userRepository,
+            BorrowRecordRepository borrowRecordRepository) {
         this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
         this.userRepository = userRepository;
         this.borrowRecordRepository = borrowRecordRepository;
     }
 
-// =========================
-// Private helper methods
-// =========================
+    // =========================
+    // Private helper methods
+    // =========================
 
     private Book findBookOrThrow(Integer id) {
         return bookRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException(id));
     }
-    private Author findAuthorOrThrow(Integer id){
+
+    private Author findAuthorOrThrow(Integer id) {
         return authorRepository.findById(id)
                 .orElseThrow(() -> new AuthorNotFoundException(id));
     }
-    private User findUserOrThrow(Integer id){
+
+    private User findUserOrThrow(Integer id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
-    private BorrowRecord findActiveBorrowRecordOrThrow(Integer id){
-        return borrowRecordRepository.findByBookIdAndReturnDateIsNull(id).
-                orElseThrow(() -> new BookNotBorrowedException(id));
+    private BorrowRecord findActiveBorrowRecordOrThrow(Integer id) {
+        return borrowRecordRepository.findByBookIdAndReturnDateIsNull(id)
+                .orElseThrow(() -> new BookNotBorrowedException(id));
     }
 
+    // =========================
+    // Public service methods
+    // =========================
 
-// =========================
-// Public service methods
-// =========================
-
-    public List<BookDto> findAllBooks() {
-        List<Book> books = bookRepository.findAll();
-        return BookMapper.toListDto(books);
+    public Page<BookDto> findAllBooks(Pageable pageable) {
+        return bookRepository.findAll(pageable).map(BookMapper::toDto);
     }
 
     public BookDto getBook(Integer id) {
         return BookMapper.toDto(findBookOrThrow(id));
     }
-
 
     public BookDto deleteBook(Integer id) {
         Book book = findBookOrThrow(id);
@@ -92,10 +91,10 @@ public class BookService {
     }
 
     @Transactional
-    public BookDto borrowBook(Integer bookId, BorrowBookRequest request){
+    public BookDto borrowBook(Integer bookId, BorrowBookRequest request) {
         Book book = findBookOrThrow(bookId);
-        User user =  findUserOrThrow(request.getUserId());
-        if (!book.isAvailable()){
+        User user = findUserOrThrow(request.getUserId());
+        if (!book.isAvailable()) {
             throw new BookNotAvailableException(bookId);
         }
         BorrowRecord record = new BorrowRecord(
@@ -109,9 +108,11 @@ public class BookService {
 
     }
 
-    public List<BookDto> getBooksByTitle(String title) {
-        List<Book> books = bookRepository.findByTitleContainingIgnoreCase(title);
-        return BookMapper.toListDto(books);
+    public Page<BookDto> getBooksByTitle(String title,Pageable pageable) {
+        return bookRepository
+                .findByTitleContainingIgnoreCase(title, pageable)
+                .map(BookMapper::toDto);
+
     }
 
     public List<BookDto> getBooksByAuthorSorted(String name, Sort sort) {
@@ -127,7 +128,7 @@ public class BookService {
     }
 
     @Transactional
-    public BookDto returnBook(Integer bookId){
+    public BookDto returnBook(Integer bookId) {
         Book book = findBookOrThrow(bookId);
         BorrowRecord borrowRecord = findActiveBorrowRecordOrThrow(bookId);
         book.setAvailable(true);
@@ -135,4 +136,3 @@ public class BookService {
         return BookMapper.toDto(book);
     }
 }
-

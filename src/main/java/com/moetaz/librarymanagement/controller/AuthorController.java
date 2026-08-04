@@ -5,6 +5,9 @@ import com.moetaz.librarymanagement.dto.CreateAuthorRequest;
 import com.moetaz.librarymanagement.dto.UpdateAuthorRequest;
 import com.moetaz.librarymanagement.service.AuthorService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -18,8 +21,8 @@ public class AuthorController {
     }
 
     @GetMapping("/authors")
-    public List<AuthorDto> getAuthors() {
-        return authorService.findAllAuthors();
+    public Page<AuthorDto> getAuthors(@PageableDefault(size = 10) Pageable pageable) {
+        return authorService.findAllAuthors(pageable);
     }
 
     @GetMapping("/authors/{id}")
