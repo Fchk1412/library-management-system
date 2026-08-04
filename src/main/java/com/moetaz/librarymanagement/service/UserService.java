@@ -3,6 +3,7 @@ package com.moetaz.librarymanagement.service;
 import com.moetaz.librarymanagement.dto.CreateUserRequest;
 import com.moetaz.librarymanagement.dto.UpdateUserRequest;
 import com.moetaz.librarymanagement.dto.UserDto;
+import com.moetaz.librarymanagement.exception.EmailAlreadyExistsException;
 import com.moetaz.librarymanagement.exception.UserNotFoundException;
 import com.moetaz.librarymanagement.mapper.UserMapper;
 import com.moetaz.librarymanagement.model.User;
@@ -37,6 +38,9 @@ public class UserService {
     }
 
     public UserDto createUser(CreateUserRequest request){
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new EmailAlreadyExistsException(request.getEmail());
+        }
         String encodedPassword = passwordEncoder.encode(request.getPassword());
         User user = new User(
                 request.getName(),

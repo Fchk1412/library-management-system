@@ -179,10 +179,16 @@ Content-Type: application/json
   "password": "tazz123"
 }
 ###
-POST http://localhost:8080/Auth/login
+POST http://localhost:8080/auth/login
 Content-Type: application/json
 
 {
   "email": "moetaz@example.com",
   "password": "tazz123"
 }
+###
+GET http://localhost:8080/books
+
+###
+GET http://localhost:8080/books
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb2V0YXpAZXhhbXBsZS5jb20iLCJpYXQiOjE3ODU3OTc5NjcsImV4cCI6MTc4NTgwMTU2N30.gosUZlDD-eTo65lYlBTY6OJdSlkFtMA4HSQxJH2hxsg

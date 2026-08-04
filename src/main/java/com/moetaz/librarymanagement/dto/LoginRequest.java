@@ -7,9 +7,9 @@ import java.util.Objects;
 
 public class LoginRequest {
     @Email
-    String email;
+    private String email;
     @Size(max = 8)
-    String password;
+    private String password;
 
     public LoginRequest() {
     }
