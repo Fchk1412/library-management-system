@@ -6,6 +6,7 @@ import com.moetaz.librarymanagement.dto.UserDto;
 import com.moetaz.librarymanagement.exception.EmailAlreadyExistsException;
 import com.moetaz.librarymanagement.exception.UserNotFoundException;
 import com.moetaz.librarymanagement.mapper.UserMapper;
+import com.moetaz.librarymanagement.model.Role;
 import com.moetaz.librarymanagement.model.User;
 import com.moetaz.librarymanagement.repository.UserRepository;
 import org.springframework.data.domain.Page;
@@ -46,6 +47,7 @@ public class UserService {
                 request.getName(),
                 request.getEmail(),
                 encodedPassword);
+        user.setRole(Role.USER);
         userRepository.save(user);
         return UserMapper.toDto(user);
     }
@@ -61,6 +63,13 @@ public class UserService {
     public UserDto deleteUser(Integer id) {
         User user = findUserOrThrow(id);
         userRepository.delete(user);
+        return UserMapper.toDto(user);
+    }
+
+    public UserDto updateUserRole(Integer id, Role role) {
+        User user = findUserOrThrow(id);
+        user.setRole(role);
+        userRepository.save(user);
         return UserMapper.toDto(user);
     }
 

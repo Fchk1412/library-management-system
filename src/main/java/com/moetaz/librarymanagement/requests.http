@@ -175,20 +175,20 @@ Content-Type: application/json
 
 {
   "name": "Moetaz",
-  "email": "moetaz@example.com",
-  "password": "tazz123"
+  "email": "moetaztrojet@example.com",
+  "password": "rinmo7620"
 }
 ###
 POST http://localhost:8080/auth/login
 Content-Type: application/json
 
 {
-  "email": "moetaz@example.com",
-  "password": "tazz123"
+  "email": "moetaztrojet@example.com",
+  "password": "rinmo7620"
 }
 ###
 GET http://localhost:8080/books
 
 ###
-GET http://localhost:8080/books
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb2V0YXpAZXhhbXBsZS5jb20iLCJpYXQiOjE3ODU4MDIzODYsImV4cCI6MTc4NTgwNTk4Nn0.N-C9RLlKmdkYDbjePNNYzqJI3uxMjWhrP2chkL8AAGk
+DELETE http://localhost:8080/books/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb2V0YXp0cm9qZXRAZXhhbXBsZS5jb20iLCJpYXQiOjE3ODU5NjY4ODYsImV4cCI6MTc4NTk3MDQ4Nn0.jY_0gsyo6lMO4SmAVx_J6DZk8a8phOH4QoDfLENydxM

@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -35,16 +36,19 @@ public class AuthorController {
         return authorService.getAuthorByName(name);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/authors")
     public AuthorDto createAuthor(@RequestBody @Valid CreateAuthorRequest request) {
         return authorService.createAuthor(request);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/authors/{id}")
     public AuthorDto deleteAuthor(@PathVariable Integer id) {
         return authorService.deleteAuthor(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/authors/{id}")
     public AuthorDto updateAuthor(@PathVariable Integer id, @RequestBody @Valid UpdateAuthorRequest request) {
         return authorService.updateAuthor(id, request);

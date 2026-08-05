@@ -2,13 +2,13 @@ package com.moetaz.librarymanagement.model;
 
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-
 
 @Entity
 @Table(name = "users")
@@ -22,13 +22,24 @@ public class User implements UserDetails {
     private String password;
     @OneToMany(mappedBy = "user")
     private List<BorrowRecord> borrowRecords = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     public User() {
     }
 
     public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
-        this.password=  password;
+        this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public Integer getId() {
@@ -65,7 +76,8 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return List.of(
+                new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
     @Override
@@ -104,16 +116,15 @@ public class User implements UserDetails {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass())
+            return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(email, user.email) && Objects.equals(password, user.password);
+        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(email, user.email)
+                && Objects.equals(password, user.password) && role == user.role;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, email, password);
+        return Objects.hash(id, name, email, password, role);
     }
 }
-
-
-

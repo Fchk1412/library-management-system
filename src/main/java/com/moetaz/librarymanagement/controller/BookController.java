@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -44,6 +45,7 @@ public class BookController {
         return bookService.getBooksByAuthorSorted(name, sort);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/books")
     public BookDto createBook(@RequestBody @Valid CreateBookRequest request) {
         return bookService.createBook(request);
@@ -54,6 +56,7 @@ public class BookController {
         return bookService.borrowBook(bookId, request);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/books/{id}")
     public BookDto updateBook(@PathVariable Integer id, @RequestBody @Valid UpdateBookRequest request) {
         return bookService.updateBook(id, request);
@@ -65,6 +68,7 @@ public class BookController {
         return bookService.returnBook(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/books/{id}")
     public BookDto deleteBook(@PathVariable Integer id) {
         return bookService.deleteBook(id);

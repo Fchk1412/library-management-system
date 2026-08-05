@@ -2,6 +2,7 @@ package com.moetaz.librarymanagement.service;
 
 
 import com.moetaz.librarymanagement.repository.UserRepository;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -18,10 +19,10 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
 
-
     @Override
-    public UserDetails loadUserByUsername(String username){
+    public UserDetails loadUserByUsername(String username) {
         return userRepository.findByEmail(username)
-                .orElseThrow(()-> new UsernameNotFoundException("USER NOT FOUND "+ username));
+                .orElseThrow(() -> new UsernameNotFoundException("USER NOT FOUND " + username));
     }
+
 }
